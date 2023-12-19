@@ -10,7 +10,7 @@ import seaborn as sns
 # %%
 
 # Load the dataset
-file_path = '..\\data\\Copy of master_sheet_QDS_CeZn.xlsx'
+file_path = '../data/Copy of master_sheet_QDS_CeZn.xlsx'
 df = pd.read_excel(file_path)
 # %%
 
