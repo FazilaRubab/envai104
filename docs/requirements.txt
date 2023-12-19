@@ -1,0 +1,12 @@
+pandas
+matplotlib
+seaborn
+openpyxl
+
+sphinx<7
+sphinx-prompt
+sphinx_rtd_theme
+sphinx_issues
+sphinx-gallery
+nbsphinx
+sphinx_copybutton
