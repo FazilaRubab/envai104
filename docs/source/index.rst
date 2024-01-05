@@ -1,6 +1,6 @@
 
-title
-------
+Pollutant Removal Optimization
+------------------------------
 
 
 .. toctree::

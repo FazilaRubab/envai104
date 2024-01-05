@@ -7,6 +7,9 @@ Exploratory Data Analysis
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from easy_mpl import plot
+from easy_mpl.utils import create_subplots
+from utils import LABEL_MAP
 # %%
 
 # Load the dataset
@@ -83,7 +86,7 @@ plt.title('Correlation Matrix')
 plt.show()
 # %%
 
-" " " Line Chart " " "
+" " " Line Chart vs time" " "
 # Plotting line charts for selected variables over time or a continuous variable
 time_variable = 'time_min'  # Replace with the actual time column in your dataset
 line_chart_columns = ['PMS_concentration g/L', 'Co (intial content of DS pollutant)', 'MO_conc_mg/L',
@@ -99,6 +102,25 @@ plt.tight_layout()
 plt.show()
 # %%
 
+"""Line Chart"""
+df_num = df[[col for col in df.columns if col not in ['time_min', 'ion_type', 'system', 'figure', 'qe', 'ion_conc.']]]
+df_num.head()
+
+# Calculate frequency for each variable
+variable_frequencies = df_num.apply(lambda col: col.value_counts().sort_index())
+variable_frequencies.index = variable_frequencies.index.astype(str)  # Convert index to string for sorting
+
+fig, axes = create_subplots(df_num.shape[1], figsize=(15, 10), sharex=True)
+
+for ax, col in zip(axes.flat, df_num.columns):
+    plot(df_num.index, df_num[col], ax=ax, color='darkcyan', show=False)
+    ax.set_title(f'{LABEL_MAP.get(col, col)} ')
+    ax.tick_params(axis='x', rotation=45, labelsize=8)  # Rotate x-axis labels for better readability
+
+plt.subplots_adjust(hspace=0.5)  # Adjust the vertical space between subplots
+plt.tight_layout()
+plt.show()
+# %%
 " " " PyPlot " " "
 # Selecting categorical columns for visualization
 categorical_columns = ['system']  # Add more columns as needed
