@@ -2,6 +2,9 @@ pandas
 matplotlib
 seaborn
 openpyxl
+easy_mpl
+git+https://github.com/AtrCheema/AI4Water.git@5c9230c1981de033b7f01b9c3e61b0e607840fd5
+
 
 sphinx<7
 sphinx-prompt

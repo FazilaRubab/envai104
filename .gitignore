@@ -1,0 +1,11 @@
+
+.idea/
+__pycache__/
+catboost_info/
+results/
+auto_examples/
+gen_modules/
+build/
+output/
+
+*.h5
