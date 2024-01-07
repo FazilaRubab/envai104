@@ -41,7 +41,7 @@ experiments.fitcv(
         'OneClassSVM',
         'GaussianProcessRegressor',
         'DummyRegressor',
-        'LassoLarsCV', 'TheilSen', 'RadiusNeighbors'
+        'LassoLarsCV', 'TheilSenRegressor', 'RadiusNeighborsRegressor'
     ],
 )
 
