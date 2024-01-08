@@ -99,7 +99,7 @@ def _ohe_column(df:pd.DataFrame, col_name:str)->tuple:
 
 def make_data(
         input_features=None,
-        output_features= 'removal%',
+        output_features= ['removal%', 'K Reaction rate constant (k 10-2min-1)'],
         encoding:str = "le",
 )->Tuple[pd.DataFrame, dict]:
 
