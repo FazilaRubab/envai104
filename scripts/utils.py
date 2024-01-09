@@ -570,7 +570,7 @@ def shap_plot(output_features):
     ax.set_xticks(ax.get_xticks())
     ax.set_xticklabels(ax.get_xticklabels(), fontsize=15)
     ax.set_xlabel(f'SHAP value (impact on {LABEL_MAP.get(output_features, output_features)})',
-                  fontsize=15, weight="bold")
+                  fontsize=13, weight="bold")
     ax.xaxis.set_major_locator(plt.MaxNLocator(5))
     plt.tight_layout()
     if SAVE:
