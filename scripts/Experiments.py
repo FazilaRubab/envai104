@@ -7,7 +7,11 @@ Experiments
 
 import matplotlib.pyplot as plt
 from ai4water.experiments import MLRegressionExperiments
-from utils import make_data, set_rcParams
+from utils import make_data, set_rcParams, print_version_info
+# %%
+
+print_version_info()
+
 # %%
 
 SAVE= False

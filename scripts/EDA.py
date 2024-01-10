@@ -7,9 +7,12 @@ Exploratory Data Analysis
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from easy_mpl import plot
+from easy_mpl import plot, pie
 from easy_mpl.utils import create_subplots
-from utils import LABEL_MAP
+from utils import LABEL_MAP, print_version_info
+# %%
+print_version_info()
+
 # %%
 
 # Load the dataset
@@ -32,15 +35,16 @@ print("\nMissing Values:\n", df.isnull().sum())
 # Selecting key numerical columns for distribution analysis
 numerical_columns = ['PMS_concentration g/L', 'Co (intial content of DS pollutant)',
                       'MO_conc_mg/L', 'NP_conc_mg/L', 'NX_conc_mg/L', 'ion_type',
-                     'TC_conc_mg/L', 'IBU_conc_mg/L', 'catalyst dosage_g/L', 'pH',
-                     'removal%', 'K Reaction rate constant (k 10-2min-1)', 'Ct', 'time_min']
+                     'TC_conc_mg/L', 'IBU_conc_mg/L', 'catalyst dosage_g/L', 'pH', 'PS g/L', 'H2O2 micro-L',
+                     'Light', 'Sonication', 'O2_quenching', 'h+_quenching', 'OH_quenching', 'so4_quenching',
+                     'cycle_no', 'removal%', 'K Reaction rate constant (k 10-2min-1)', 'Ct', 'time_min']
 # %%
 
 " " " Histogram " " "
 # Plotting histograms for the selected columns
 plt.figure(figsize=(10, 8))
 for i, col in enumerate(numerical_columns, 1):
-    plt.subplot(3, 5, i)
+    plt.subplot(5, 5, i)
     sns.histplot(df[col], kde=True)
     plt.title(col)
 plt.tight_layout()
@@ -52,7 +56,7 @@ plt.show()
 # Plotting box plots for the same variables to identify outliers
 plt.figure(figsize=(10, 8))
 for i, col in enumerate(numerical_columns, 1):
-    plt.subplot(3, 5, i)
+    plt.subplot(5, 5, i)
     sns.boxplot(y=df[col])
     plt.title(col)
 plt.tight_layout()
@@ -80,7 +84,7 @@ plt.show()
 " " " Correlation Matrix " " "
 # Calculating and plotting the correlation matrix
 correlation_matrix = df[numerical_columns].corr()
-plt.figure(figsize=(10, 8))
+plt.figure(figsize=(20, 10))
 sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm')
 plt.title('Correlation Matrix')
 plt.show()
@@ -103,7 +107,7 @@ plt.show()
 # %%
 
 """Line Chart"""
-df_num = df[[col for col in df.columns if col not in ['ion_type', 'system', 'figure', 'qe', 'ion_conc.']]]
+df_num = df[[col for col in df.columns if col not in ['system', 'figure', 'qe', 'ion_conc.']]]
 df_num.head()
 
 # Calculate frequency for each variable
@@ -134,3 +138,6 @@ for i, col in enumerate(categorical_columns, 1):
     plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
 plt.tight_layout()
 plt.show()
+# %%
+" " " PyPlot " " "
+pie(df['system'])

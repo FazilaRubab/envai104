@@ -64,9 +64,10 @@ def get_data(
 )->pd.DataFrame:
     def_inputs = [
         'PMS_concentration g/L', 'Co (intial content of DS pollutant)',
-        'MO_conc_mg/L', 'NP_conc_mg/L', 'NX_conc_mg/L',
-        'TC_conc_mg/L', 'IBU_conc_mg/L', 'catalyst dosage_g/L', 'pH',
-        'removal%', 'K Reaction rate constant (k 10-2min-1)', 'Ct', 'time_min'
+        'MO_conc_mg/L', 'NP_conc_mg/L', 'NX_conc_mg/L', 'ion_type',
+        'TC_conc_mg/L', 'IBU_conc_mg/L', 'catalyst dosage_g/L', 'pH', 'PS g/L', 'H2O2 micro-L',
+        'Light', 'Sonication', 'O2_quenching', 'h+_quenching', 'OH_quenching', 'so4_quenching',
+        'cycle_no', 'system', 'Ct', 'time_min'
     ]
 
     if input_features is None:
@@ -169,9 +170,10 @@ def read_data(
 
     default_inputs = [
         'PMS_concentration g/L', 'Co (intial content of DS pollutant)',
-        'MO_conc_mg/L', 'NP_conc_mg/L', 'NX_conc_mg/L',
-        'TC_conc_mg/L', 'IBU_conc_mg/L', 'catalyst dosage_g/L', 'pH',
-        'removal%', 'K Reaction rate constant (k 10-2min-1)', 'Ct', 'time_min'
+        'MO_conc_mg/L', 'NP_conc_mg/L', 'NX_conc_mg/L', 'ion_type',
+        'TC_conc_mg/L', 'IBU_conc_mg/L', 'catalyst dosage_g/L', 'pH', 'PS g/L', 'H2O2 micro-L',
+        'Light', 'Sonication', 'O2_quenching', 'h+_quenching', 'OH_quenching', 'so4_quenching',
+        'cycle_no', 'system', 'Ct', 'time_min'
     ]
 
     if inputs is None:
@@ -233,9 +235,9 @@ def get_predictions(
     Trains the models for predicting of the specific output
     """
     if output == 'removal%':
-        model = Model(model='OrthogonalMatchingPursuitCV', verbosity=-1)
+        model = Model(model='RidgeCV', verbosity=-1)
     else:
-        model = Model(model='ExtraTreesRegressor', verbosity=-1)
+        model = Model(model='ARDRegression', verbosity=-1)
 
 
     if cv:
@@ -534,8 +536,9 @@ def shap_plot(output_features):
     input_features = [
         'PMS_concentration g/L', 'Co (intial content of DS pollutant)',
         'MO_conc_mg/L', 'NP_conc_mg/L', 'NX_conc_mg/L', 'ion_type',
-        'TC_conc_mg/L', 'IBU_conc_mg/L', 'catalyst dosage_g/L', 'pH',
-        'removal%', 'K Reaction rate constant (k 10-2min-1)', 'Ct', 'time_min'
+        'TC_conc_mg/L', 'IBU_conc_mg/L', 'catalyst dosage_g/L', 'pH', 'PS g/L', 'H2O2 micro-L',
+        'Light', 'Sonication', 'O2_quenching', 'h+_quenching', 'OH_quenching', 'so4_quenching',
+        'cycle_no', 'system', 'Ct', 'time_min'
     ]
 
     TrainX, TestX, TrainY, TestY = TrainTestSplit(seed=313).split_by_random(
@@ -545,11 +548,15 @@ def shap_plot(output_features):
 
     print(TrainX.shape, TrainY.shape, TestX.shape, TestY.shape)
     model = Model(
-        model="CatBoostRegressor",
+        model= None,
         input_features=input_features,
         output_features=output_features,
         verbosity=-1,
     )
+    if output_features == 'removal%':
+        model = Model(model='RidgeCV', verbosity=-1)
+    else:
+        model = Model(model='ARDRegression', verbosity=-1)
 
     model.fit(TrainX, TrainY.values)
     train_p = model.predict(TrainX, process_results=False)
@@ -577,7 +584,7 @@ def shap_plot(output_features):
     ax.set_xticklabels(ax.get_xticklabels(), fontsize=15)
     ax.set_xlabel(f'SHAP value (impact on {LABEL_MAP.get(output_features, output_features)})',
                   fontsize=13, weight="bold")
-    ax.xaxis.set_major_locator(plt.MaxNLocator(5))
+    ax.xaxis.set_major_locator(plt.MaxNLocator(20))
     plt.tight_layout()
     if SAVE:
         plt.savefig(f"results/figures/shap_summary_{output_features}.png",
