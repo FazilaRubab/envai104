@@ -164,7 +164,7 @@ def read_data(
         outputs="removal%, K Reaction rate constant (k 10-2min-1)",
         encoding="le"
 ):
-    df = pd.read_excel("../data/master_sheet_QDS_CeZn.xlsx")
+    df = pd.read_excel("../data/master_sheet.xlsx")
 
 
     default_inputs = [
