@@ -54,7 +54,7 @@ LABEL_MAP = {
 
 # %%
 def load_data() -> pd.DataFrame:
-    fpath = '../data/master_sheet_QDS_CeZn.xlsx'
+    fpath = '../data/master_sheet.xlsx'
     return pd.read_excel(fpath)
 
 # %%
@@ -63,10 +63,10 @@ def get_data(
         output_features:Union[str, List[str]] = 'removal%'
 )->pd.DataFrame:
     def_inputs = [
-        'time_min', 'PMS_concentration g/L',
-        'Co (intial content of DS pollutant)',
-        'IBU_conc_mg/L',
-         'catalyst dosage_g/L', 'cycle_no', 'Ct'
+        'PMS_concentration g/L', 'Co (intial content of DS pollutant)',
+        'MO_conc_mg/L', 'NP_conc_mg/L', 'NX_conc_mg/L',
+        'TC_conc_mg/L', 'IBU_conc_mg/L', 'catalyst dosage_g/L', 'pH',
+        'removal%', 'K Reaction rate constant (k 10-2min-1)', 'Ct', 'time'
     ]
 
     if input_features is None:
@@ -167,10 +167,12 @@ def read_data(
     df = pd.read_excel("../data/master_sheet_QDS_CeZn.xlsx")
 
 
-    default_inputs = ['time_min', 'PMS_concentration g/L',
-        'Co (intial content of DS pollutant)',
-        'IBU_conc_mg/L',
-         'catalyst dosage_g/L', 'cycle_no', 'Ct']
+    default_inputs = [
+        'PMS_concentration g/L', 'Co (intial content of DS pollutant)',
+        'MO_conc_mg/L', 'NP_conc_mg/L', 'NX_conc_mg/L',
+        'TC_conc_mg/L', 'IBU_conc_mg/L', 'catalyst dosage_g/L', 'pH',
+        'removal%', 'K Reaction rate constant (k 10-2min-1)', 'Ct', 'time'
+    ]
 
     if inputs is None:
         inputs = default_inputs
@@ -230,7 +232,11 @@ def get_predictions(
     """
     Trains the models for predicting of the specific output
     """
-    model = Model(model='CatBoostRegressor', verbosity=-1)
+    if output == 'removal%':
+        model = Model(model='OrthogonalMatchingPursuitCV', verbosity=-1)
+    else:
+        model = Model(model='ExtraTreesRegressor', verbosity=-1)
+
 
     if cv:
 
@@ -526,10 +532,10 @@ def shap_plot(output_features):
     print(data.shape)
 
     input_features = [
-        'time_min', 'PMS_concentration g/L',
-        'Co (intial content of DS pollutant)',
-        'IBU_conc_mg/L',
-         'catalyst dosage_g/L', 'cycle_no', 'Ct'
+        'PMS_concentration g/L', 'Co (intial content of DS pollutant)',
+        'MO_conc_mg/L', 'NP_conc_mg/L', 'NX_conc_mg/L', 'ion_type',
+        'TC_conc_mg/L', 'IBU_conc_mg/L', 'catalyst dosage_g/L', 'pH',
+        'removal%', 'K Reaction rate constant (k 10-2min-1)', 'Ct', 'time'
     ]
 
     TrainX, TestX, TrainY, TestY = TrainTestSplit(seed=313).split_by_random(

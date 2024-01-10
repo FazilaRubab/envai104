@@ -13,7 +13,7 @@ from utils import LABEL_MAP
 # %%
 
 # Load the dataset
-file_path = '../data/master_sheet_QDS_CeZn.xlsx'
+file_path = '../data/master_sheet.xlsx'
 df = pd.read_excel(file_path)
 # %%
 
@@ -31,16 +31,16 @@ print("\nMissing Values:\n", df.isnull().sum())
 
 # Selecting key numerical columns for distribution analysis
 numerical_columns = ['PMS_concentration g/L', 'Co (intial content of DS pollutant)',
-                     'MO_conc_mg/L', 'NP_conc_mg/L', 'NX_conc_mg/L',
+                      'MO_conc_mg/L', 'NP_conc_mg/L', 'NX_conc_mg/L', 'ion_type',
                      'TC_conc_mg/L', 'IBU_conc_mg/L', 'catalyst dosage_g/L', 'pH',
-                     'removal%', 'K Reaction rate constant (k 10-2min-1)', 'Ct']
+                     'removal%', 'K Reaction rate constant (k 10-2min-1)', 'Ct', 'time_min']
 # %%
 
 " " " Histogram " " "
 # Plotting histograms for the selected columns
-plt.figure(figsize=(15, 10))
+plt.figure(figsize=(10, 8))
 for i, col in enumerate(numerical_columns, 1):
-    plt.subplot(3, 4, i)
+    plt.subplot(3, 5, i)
     sns.histplot(df[col], kde=True)
     plt.title(col)
 plt.tight_layout()
@@ -50,9 +50,9 @@ plt.show()
 
 " " " Box Plot " " "
 # Plotting box plots for the same variables to identify outliers
-plt.figure(figsize=(15, 10))
+plt.figure(figsize=(10, 8))
 for i, col in enumerate(numerical_columns, 1):
-    plt.subplot(3, 4, i)
+    plt.subplot(3, 5, i)
     sns.boxplot(y=df[col])
     plt.title(col)
 plt.tight_layout()
@@ -89,7 +89,7 @@ plt.show()
 " " " Line Chart vs time" " "
 # Plotting line charts for selected variables over time or a continuous variable
 time_variable = 'time_min'  # Replace with the actual time column in your dataset
-line_chart_columns = ['PMS_concentration g/L', 'Co (intial content of DS pollutant)', 'MO_conc_mg/L',
+line_chart_columns = ['PMS_concentration g/L', 'Co (intial content of DS pollutant)',
                       'NP_conc_mg/L', 'NX_conc_mg/L', 'TC_conc_mg/L', 'IBU_conc_mg/L',
                       'catalyst dosage_g/L', 'pH', 'removal%', 'K Reaction rate constant (k 10-2min-1)', 'Ct']
 
@@ -103,7 +103,7 @@ plt.show()
 # %%
 
 """Line Chart"""
-df_num = df[[col for col in df.columns if col not in ['time_min', 'ion_type', 'system', 'figure', 'qe', 'ion_conc.']]]
+df_num = df[[col for col in df.columns if col not in ['ion_type', 'system', 'figure', 'qe', 'ion_conc.']]]
 df_num.head()
 
 # Calculate frequency for each variable
