@@ -66,7 +66,7 @@ def get_data(
         'PMS_concentration g/L', 'Co (intial content of DS pollutant)',
         'MO_conc_mg/L', 'NP_conc_mg/L', 'NX_conc_mg/L',
         'TC_conc_mg/L', 'IBU_conc_mg/L', 'catalyst dosage_g/L', 'pH',
-        'removal%', 'K Reaction rate constant (k 10-2min-1)', 'Ct', 'time'
+        'removal%', 'K Reaction rate constant (k 10-2min-1)', 'Ct', 'time_min'
     ]
 
     if input_features is None:
@@ -171,7 +171,7 @@ def read_data(
         'PMS_concentration g/L', 'Co (intial content of DS pollutant)',
         'MO_conc_mg/L', 'NP_conc_mg/L', 'NX_conc_mg/L',
         'TC_conc_mg/L', 'IBU_conc_mg/L', 'catalyst dosage_g/L', 'pH',
-        'removal%', 'K Reaction rate constant (k 10-2min-1)', 'Ct', 'time'
+        'removal%', 'K Reaction rate constant (k 10-2min-1)', 'Ct', 'time_min'
     ]
 
     if inputs is None:
@@ -535,7 +535,7 @@ def shap_plot(output_features):
         'PMS_concentration g/L', 'Co (intial content of DS pollutant)',
         'MO_conc_mg/L', 'NP_conc_mg/L', 'NX_conc_mg/L', 'ion_type',
         'TC_conc_mg/L', 'IBU_conc_mg/L', 'catalyst dosage_g/L', 'pH',
-        'removal%', 'K Reaction rate constant (k 10-2min-1)', 'Ct', 'time'
+        'removal%', 'K Reaction rate constant (k 10-2min-1)', 'Ct', 'time_min'
     ]
 
     TrainX, TestX, TrainY, TestY = TrainTestSplit(seed=313).split_by_random(
