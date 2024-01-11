@@ -4,7 +4,7 @@ main
 ====================
 """
 
-from utils import make_data, set_rcParams, regression_plot, get_predictions
+from utils import set_rcParams, regression_plot, get_predictions
 from utils import residual_plot, shap_plot, print_version_info
 from utils import cumulative_probability_plot
 
@@ -14,9 +14,7 @@ print_version_info()
 # %%
 set_rcParams()
 
-# %%
-data, enc = make_data()
-print(data.shape)
+
 
 # %%
 # Removal Efficiency

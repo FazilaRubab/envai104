@@ -108,30 +108,6 @@ def _ohe_column(df:pd.DataFrame, col_name:str)->tuple:
     return df, None, None
 
 # %%
-
-def make_data(
-        input_features=None,
-        output_features= ['removal%', 'K Reaction rate constant (k 10-2min-1)'],
-        encoding:str = "le",
-)->Tuple[pd.DataFrame, dict]:
-
-    data = get_data(input_features, output_features)
-
-    encoders = {}
-
-
-    if encoding == "ohe":
-        # applying One Hot Encoding
-        data, _, encoders['ion_type'] = _ohe_column(data, 'ion_type')
-        data, _, encoders['ion_type'] = _ohe_column(data, 'Catalyst')
-
-    elif encoding == "le":
-        # applying Label Encoding
-        data, encoders['ion_type'] = le_column(data, 'ion_type')
-        data, encoders['catalyst'] = le_column(data, 'catalyst')
-
-    return data, encoders
-# %%
 def print_version_info():
     info = get_version_info()
 
@@ -162,7 +138,7 @@ def set_rcParams(**kwargs):
 # %%
 def read_data(
         inputs=None,
-        outputs="removal%, K Reaction rate constant (k 10-2min-1)",
+        outputs="removal%",
         encoding="le"
 ):
     df = pd.read_excel("../data/master_sheet.xlsx")
@@ -191,13 +167,11 @@ def read_data(
 
     if encoding=="ohe":
         # applying One Hot Encoding
-        df, _, ads_encoder = _ohe_column(df, 'Catalyst')
-        df, _, ads_encoder = _ohe_column(df, 'ion_type')
+        df, _, ads_encoder = _ohe_column(df, 'system')
 
     elif encoding == "le":
         # applying Label Encoding
-        df, ads_encoder = le_column(df, 'Catalyst')
-        df, ads_encoder = le_column(df, 'ion_type')
+        df, ads_encoder = le_column(df, 'system')
 
     return df.dropna(), ads_encoder
 
@@ -234,10 +208,8 @@ def get_predictions(
     """
     Trains the models for predicting of the specific output
     """
-    if output == 'removal%':
-        model = Model(model='RidgeCV', verbosity=-1)
-    else:
-        model = Model(model='ARDRegression', verbosity=-1)
+    model = Model(model='CatBoostRegressor', verbosity=-1)
+
 
 
     if cv:
@@ -530,7 +502,7 @@ def cumulative_probability_plot(
 def shap_plot(output_features):
     set_rcParams()
 
-    data, enc = make_data(output_features= output_features)
+    data, enc = read_data(outputs= output_features)
     print(data.shape)
 
     input_features = [
@@ -547,16 +519,8 @@ def shap_plot(output_features):
     )
 
     print(TrainX.shape, TrainY.shape, TestX.shape, TestY.shape)
-    model = Model(
-        model= None,
-        input_features=input_features,
-        output_features=output_features,
-        verbosity=-1,
-    )
-    if output_features == 'removal%':
-        model = Model(model='RidgeCV', verbosity=-1)
-    else:
-        model = Model(model='ARDRegression', verbosity=-1)
+    model = Model(model='CatBoostRegressor', verbosity=-1)
+
 
     model.fit(TrainX, TrainY.values)
     train_p = model.predict(TrainX, process_results=False)
