@@ -254,11 +254,11 @@ def get_predictions(
 
 def regression_plot(true, prediction, hist_bins=20, label="Removal Efficiency %", show=True):
 
-    RIDGE_LINE_KWS = [{'color': 'olive', 'lw': 1.0}, {'color': 'firebrick', 'lw': 1.0}]
-    HIST_KWS = [{'color': 'khaki', 'bins': hist_bins}, {'color': 'salmon', 'bins': hist_bins}]
+    RIDGE_LINE_KWS = [{'color': '#003B46', 'lw': 1.0}, {'color': '#2E8B57', 'lw': 1.0}]
+    HIST_KWS = [{'color': '#41BA90', 'bins': hist_bins}, {'color': '#3AB763', 'bins': hist_bins}]
 
-    ax = regplot(true, prediction, marker_color='crimson', marker_size=35,
-                 scatter_kws={'marker': "D", 'edgecolors': 'black'},
+    ax = regplot(true, prediction, marker_color='#036666', marker_size=35,
+                 scatter_kws={'marker': "D", 'edgecolors': '#88D4AB'},
                  line_color='black', marginals=True, show=False, ridge_line_kws=RIDGE_LINE_KWS,
                  hist=True,
                  hist_kws=HIST_KWS, ax_kws=dict(xlabel=f"Experimental {label}",
@@ -430,8 +430,8 @@ def residual_plot(obs, pred ,x_axis_label= "Removal %"):
     df_er = pd.DataFrame({'Error': errors, 'Prediction': pred, 'Observation': obs})
 
     # Define colors for the scatter plot and marginals
-    scatter_color = '#014636'
-    marginal_color = '#027b7d'
+    scatter_color = '#E88267'
+    marginal_color = '#E07A5F'
 
     # Plot the error plot
 
