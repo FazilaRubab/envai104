@@ -255,10 +255,10 @@ def get_predictions(
 def regression_plot(true, prediction, hist_bins=20, label="Removal Efficiency %", show=True):
 
     RIDGE_LINE_KWS = [{'color': '#003B46', 'lw': 1.0}, {'color': '#2E8B57', 'lw': 1.0}]
-    HIST_KWS = [{'color': '#41BA90', 'bins': hist_bins}, {'color': '#3AB763', 'bins': hist_bins}]
+    HIST_KWS = [{'color': '#A4E9D5', 'bins': hist_bins}, {'color': '#C1ABA6', 'bins': hist_bins}]
 
-    ax = regplot(true, prediction, marker_color='#036666', marker_size=35,
-                 scatter_kws={'marker': "D", 'edgecolors': '#88D4AB'},
+    ax = regplot(true, prediction, marker_color='#D9B48FFF', marker_size=35,
+                 scatter_kws={'marker': "o", 'edgecolors': '#333333'},
                  line_color='black', marginals=True, show=False, ridge_line_kws=RIDGE_LINE_KWS,
                  hist=True,
                  hist_kws=HIST_KWS, ax_kws=dict(xlabel=f"Experimental {label}",

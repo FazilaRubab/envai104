@@ -56,7 +56,7 @@ experiments.fitcv(
 )
 
 
-ax = experiments.plot_cv_scores(fill_color="#2596be", patch_artist=True,
+ax = experiments.plot_cv_scores(fill_color="#9fbe25", patch_artist=True,
                                 exclude="LinearSVR", figsize=(9, 6))
 ax.grid()
 if SAVE:
@@ -96,7 +96,7 @@ experiments.fitcv(
 )
 
 
-ax = experiments.plot_cv_scores(fill_color="#2596be", patch_artist=True,
+ax = experiments.plot_cv_scores(fill_color="#9fbe25", patch_artist=True,
                                 exclude="LinearSVR", figsize=(9, 6))
 ax.grid()
 if SAVE:
